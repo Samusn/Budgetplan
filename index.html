@@ -23,15 +23,16 @@
       <form id="form">
         <div class="form-control">
           <label for="text">Budget</label>
-          <button onclick="enableEdit()" class="tooltip" id="tooltip">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAx0lEQVR4nN3RsW0CQRAFUBKIaMASxMghBmcOCBBVuAMkanDoMiCiCAIacOACTAfcERIg+6FFGyB0exxnBxYjTbJaPc2faTTuttDFDM9/gfWxxRcOGP4Wy7BAExtMiz6+SdceEzxdYIs4aScFfmJc0I8JLAsTp6IEcH1lZ0u0MMeudHcSYAlWfl0FINrIL2LmMf6kDviCbzycYQP0wqHqgDP8RPSExfdROH0d8DWiYdL22Xs9MFX3BeZYVeiPKuAY77d0lTT/r46pbupO9cRZWgAAAABJRU5ErkJggg==">
-          </button>   
-          <button onclick="disableEdit()" style="display: none;" class="tooltip">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAABBUlEQVR4nNWUMU4DQQxFLYgEsRcKLoAoqCjT5wIsdGlAnINy06C12Sp3SBMukUOkCbEnUo6BhLTIAaQoTKLdbArypV/Z82R7PANwUBJt34vhcx3ns/ZdFOYBMSp3csD0D5ANMw++atLLDTtV7LliVPrZSLvUXwaVbqqOyHPFK1TqNwJmJRztDVjMTy9ZcZK/J93GwGJ6ciVKC1b65EAPjYCFV2Y0d5goPtVqeTC7OPeby8bQWq9MAj3+nqkM5J8VEsOR2Nl1DFYLmI2h9Q1bLu5HDFYLCADwVsIxKw5XZ9YI6PJKfT1gg7YCee9PL2C66+fAAW+jLTiUjV5YiSvZczfB/q2+AFFXemKanfIpAAAAAElFTkSuQmCC">
-          </button>   
+          
+            <button onclick="enableEdit()" class="editButton" id="tooltip">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAx0lEQVR4nN3RsW0CQRAFUBKIaMASxMghBmcOCBBVuAMkanDoMiCiCAIacOACTAfcERIg+6FFGyB0exxnBxYjTbJaPc2faTTuttDFDM9/gfWxxRcOGP4Wy7BAExtMiz6+SdceEzxdYIs4aScFfmJc0I8JLAsTp6IEcH1lZ0u0MMeudHcSYAlWfl0FINrIL2LmMf6kDviCbzycYQP0wqHqgDP8RPSExfdROH0d8DWiYdL22Xs9MFX3BeZYVeiPKuAY77d0lTT/r46pbupO9cRZWgAAAABJRU5ErkJggg==">
+            </button>
+
+            <button onclick="disableEdit()" class="confirmButton" id="tooltip" style="display: none;">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAABBUlEQVR4nNWUMU4DQQxFLYgEsRcKLoAoqCjT5wIsdGlAnINy06C12Sp3SBMukUOkCbEnUo6BhLTIAaQoTKLdbArypV/Z82R7PANwUBJt34vhcx3ns/ZdFOYBMSp3csD0D5ANMw++atLLDTtV7LliVPrZSLvUXwaVbqqOyHPFK1TqNwJmJRztDVjMTy9ZcZK/J93GwGJ6ciVKC1b65EAPjYCFV2Y0d5goPtVqeTC7OPeby8bQWq9MAj3+nqkM5J8VEsOR2Nl1DFYLmI2h9Q1bLu5HDFYLCADwVsIxKw5XZ9YI6PJKfT1gg7YCee9PL2C66+fAAW+jLTiUjV5YiSvZczfB/q2+AFFXemKanfIpAAAAAElFTkSuQmCC">
+            </button>
             <div class="budget-expense">
-              <span id="numberField" contenteditable="true">0.00</span>
-              <p>CHF</p>
+            <span class="budget" id="budget">CHF 0.00</span>
           </div>
 
           <label for="text">Description</label>
