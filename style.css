@@ -169,16 +169,6 @@ label {
               0 0 100px white;
 }
 
-.delete-btn {
-  background-color: rgb(139, 192, 235);
-  border-radius: 1rem;
-  outline: none;
-  float: right;
-  margin-right: 5px;
-  width: 25px;
-  height: 25px;
-}
-
 .editButton,
 .confirmButton {
   margin-left: 65%;

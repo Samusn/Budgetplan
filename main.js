@@ -5,14 +5,14 @@ let initialBudget = 0; // Hält den ursprünglichen Wert des Budgets
 
 function enableEdit() {
     var budget = document.getElementById("budget");
-    var tooltip = document.querySelector('button:nth-of-type(1)');
-    var confirmButton = document.querySelector('button:nth-of-type(2)');
+    var tooltipEdit = document.querySelector('.editButton'); // Verändert die Selektoren für die Buttons
+    var confirmTooltip = document.querySelector('.confirmButton'); // Verändert die Selektoren für die Buttons
     var originalContent = budget.textContent;
 
     budget.contentEditable = true;
     budget.style.border = "white";
-    tooltip.style.display = "none";
-    confirmButton.style.display = "inline";
+    tooltipEdit.style.display = "none";
+    confirmTooltip.style.display = "inline";
 
     budget.setAttribute("contenteditable", true);
     budget.focus();
@@ -38,8 +38,8 @@ function restrictInput(event) {
 
 function disableEdit() {
     var budget = document.getElementById("budget");
-    var tooltip = document.querySelector('button:nth-of-type(1)');
-    var confirmButton = document.querySelector('button:nth-of-type(2)');
+    var tooltipEdit = document.querySelector('.editButton'); // Verändert die Selektoren für die Buttons
+    var confirmTooltip = document.querySelector('.confirmButton'); // Verändert die Selektoren für die Buttons
 
     var text = budget.innerText;
     var text = budget.textContent.trim();
@@ -48,10 +48,14 @@ function disableEdit() {
 
     budget.contentEditable = false;
     budget.style.border = "none";
-    tooltip.style.display = "inline";
-    confirmButton.style.display = "none";
+    tooltipEdit.style.display = "inline";
+    confirmTooltip.style.display = "none";
 
     currentBudget = parseFloat(budget.textContent.replace('CHF ', '')) || 0; // Aktualisiert den aktuellen Wert des Budgets
+}
+
+function deleteEntry(event) {
+    event.target.parentElement.remove(); // Entfernt das übergeordnete Element des Buttons (also den Eintrag)
 }
 
 function addTransaction() {
@@ -81,6 +85,11 @@ function addTransaction() {
         const listItem = document.createElement("li");
         listItem.textContent = `${description}: CHF ${amount.toFixed(2)}`;
 
+        const deleteButton = document.createElement("img");
+        deleteButton.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAdUlEQVR4nO2SwQmAMAxFu0JXcIVuogt0ieK183j2oLhIPXlwkCeFHIq2RcGL4IdPIJ+fT0KUegOABhqhAUZgkWoSTefMnnvwpeQdcElKSif6NVkGbIAtaDbqtb1/82cOtgID0GcY+6Fm7oBZfvrMCWiL5qc4ADaTJ8LW8yQWAAAAAElFTkSuQmCC"; // Pfadeinstellung für dein Bild
+        deleteButton.alt = "Löschen";
+        deleteButton.addEventListener("click", deleteEntry); // Fügt den Lösch-Button mit der Löschfunktion hinzu
+
         // Klasse und zentrierende Formatierung für das Listenelement hinzufügen
         listItem.classList.add("list-item");
         listItem.style.textAlign = "center";
@@ -88,11 +97,16 @@ function addTransaction() {
         // Fügt die Klasse hinzu, basierend auf dem Transaktionstyp (inflow oder outflow)
         listItem.classList.add(transactionType);
 
+        listItem.appendChild(deleteButton);
+
         // Liste finden und das neue Element hinzufügen
         const list = document.getElementById("list");
         list.appendChild(listItem);
 
+        
         // Beschreibungsfeld leeren
         document.getElementById("description").value = "";
+        document.getElementById("amount").value = "";
+
     }
 }
