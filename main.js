@@ -2,6 +2,7 @@ let totalIncome = 0;
 let totalExpense = 0;
 let currentBudget = 0;
 let initialBudget = 0; // Hält den ursprünglichen Wert des Budgets
+let transactionsHistory = []; // Historie für Transaktionen
 
 function enableEdit() {
     var budget = document.getElementById("budget");
@@ -30,6 +31,7 @@ function enableEdit() {
     selection.removeAllRanges();
     selection.addRange(range);
 }
+
 
 function restrictInput(event) {
     var text = event.target.textContent.replace(/[^\d.]/g, '');
@@ -86,7 +88,7 @@ function addTransaction() {
         listItem.textContent = `${description}: CHF ${amount.toFixed(2)}`;
 
         const deleteButton = document.createElement("img");
-        deleteButton.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAdUlEQVR4nO2SwQmAMAxFu0JXcIVuogt0ieK183j2oLhIPXlwkCeFHIq2RcGL4IdPIJ+fT0KUegOABhqhAUZgkWoSTefMnnvwpeQdcElKSif6NVkGbIAtaDbqtb1/82cOtgID0GcY+6Fm7oBZfvrMCWiL5qc4ADaTJ8LW8yQWAAAAAElFTkSuQmCC"; // Pfadeinstellung für dein Bild
+        deleteButton.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAdUlEQVR4nO2SwQmAMAxFu0JXcIVuogt0ieK183j2oLhIPXlwkCeFHIq2RcGL4IdPIJ+fT0KUegOABhqhAUZgkWoSTefMnnvwpeQdcElKSif6NVkGbIAtaDbqtb1/82cOtgID0GcY+6Fm7oBZfvrMCWiL5qc4ADaTJ8LW8yQWAAAAAElFTkSuQmCC"; 
         deleteButton.alt = "Löschen";
         deleteButton.addEventListener("click", deleteEntry); // Fügt den Lösch-Button mit der Löschfunktion hinzu
 
@@ -103,10 +105,72 @@ function addTransaction() {
         const list = document.getElementById("list");
         list.appendChild(listItem);
 
-        
         // Beschreibungsfeld leeren
         document.getElementById("description").value = "";
         document.getElementById("amount").value = "";
 
+        // Füge die Transaktion zur Historie hinzu
+        const transaction = {
+            description: description,
+            amount: amount.toFixed(2),
+            type: transactionType
+        };
+        transactionsHistory.push(transaction);
+
+        // Aktualisiere die Transaktionshistorie
+        updateTransactionHistory();
     }
 }
+
+
+function updateTransactionHistory() {
+    const historyList = document.getElementById("transactionHistory");
+    historyList.innerHTML = ""; // Leere die Historie zuerst
+
+    transactionsHistory.forEach(transaction => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${transaction.description}: CHF ${transaction.amount}`;
+        listItem.classList.add("list-item");
+        listItem.classList.add(transaction.type); // Füge die Klasse basierend auf dem Transaktionstyp hinzu
+        historyList.appendChild(listItem);
+    });
+}
+
+
+function saveContent() {
+    const contentToSave = {
+        totalIncome: totalIncome,
+        totalExpense: totalExpense,
+        currentBudget: currentBudget,
+        initialBudget: initialBudget,
+        transactionsHistory: transactionsHistory
+    };
+
+    localStorage.setItem('savedContent', JSON.stringify(contentToSave));
+}
+
+function loadContent() {
+    const savedContent = localStorage.getItem('savedContent');
+
+    if (savedContent) {
+        const parsedContent = JSON.parse(savedContent);
+
+        totalIncome = parsedContent.totalIncome || 0;
+        totalExpense = parsedContent.totalExpense || 0;
+        currentBudget = parsedContent.currentBudget || 0;
+        initialBudget = parsedContent.initialBudget || 0;
+        transactionsHistory = parsedContent.transactionsHistory || [];
+
+        document.getElementById("income").textContent = ` ${totalIncome.toFixed(2)}`;
+        document.getElementById("expense").textContent = ` ${totalExpense.toFixed(2)}`;
+        document.getElementById("budget").textContent = `CHF ${currentBudget.toFixed(2)}`;
+
+        updateTransactionHistory();
+    }
+}
+
+// Füge den Event Listener hinzu, um das Speichern vor dem Entladen der Seite auszulösen
+window.addEventListener('beforeunload', saveContent);
+
+// Lade den Inhalt beim Laden der Seite
+window.addEventListener('load', loadContent);
